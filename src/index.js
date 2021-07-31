@@ -1,8 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+console.log('env is: ', process.env);
+
+library.add(faSpinner);
 
 ReactDOM.render(
   <React.StrictMode>
