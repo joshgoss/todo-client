@@ -2,9 +2,11 @@
 @import 'styles/_helpers.scss';
 
 .login-layout {
-    width: 1024px;
-    margin: 0 auto;
-
+    .page {
+        width: 1024px;
+        margin: 0 auto;
+    }
+    
     .brand {
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         margin: 35px 0 40px 0;
@@ -21,7 +23,7 @@
             }
 
             .alt {
-                color: $brand-primary;
+                color: shade($brand-primary, 30%);
             }
         }
 

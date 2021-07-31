@@ -2,17 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { Provider } from 'react-redux'
+import { store } from './store'
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-console.log('env is: ', process.env);
 
 library.add(faSpinner);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

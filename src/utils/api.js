@@ -1,3 +1,7 @@
+import {addNotification, notificationType} from '../features/notifications/notificationsSlice';
+import {store} from '../store';
+
+
 export const apiFetch = async ({
     endpoint='',
     method='',
@@ -17,6 +21,13 @@ export const apiFetch = async ({
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
         body: data ? JSON.stringify(data) : undefined
+    }).then((r) => (r)).catch((e) => {
+        store.dispatch(addNotification({
+            message: 'Something went wrong while performing a request.', 
+            type: notificationType.FAILURE
+        }))
+
+        return e;
     });
 
     return response.json();

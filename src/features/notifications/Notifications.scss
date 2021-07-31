@@ -1,0 +1,22 @@
+@import 'styles/_colors.scss';
+@import 'styles/_helpers.scss';
+
+.notifications {
+    padding: 10px 10px;
+    text-align: center;
+
+    &.failure {
+        background: $red;
+        color: darken($white, 10%);
+    }
+
+    &.success {
+        background: $green;
+        color: darken($white, 10%);
+    }
+
+    .message {
+        margin: 0;
+        padding: 0;
+    }
+}
