@@ -1,0 +1,48 @@
+@import 'styles/_colors.scss';
+@import 'styles/_helpers.scss';
+
+form button {
+    margin-top: 20px;
+    margin-left: auto;
+
+    &:last-of-type {
+        margin-right: 20px;
+    }
+}
+
+button {
+    border: 0;
+    border: 1px solid solid $black;
+    color: $black;
+    cursor: pointer;
+    font-size: 0.875em;
+    margin:  0 0 0 10px;
+    min-width: 75px;
+    padding: 12px 15px;
+
+    &:hover {
+        background: darken($white, 10%);
+    }
+    
+    &:disabled {
+        color: tint($black, 80%);
+        background: tint($black, 95%);
+        cursor: not-allowed;
+    } 
+
+    &.primary {
+        background: $primary;
+        color: $white;
+    }
+
+    &.primary:hover {
+        background: shade($primary, 30%);
+    }
+
+    &.primary:disabled {
+        background: tint($primary, 60%)
+    } 
+}
+
+
+
