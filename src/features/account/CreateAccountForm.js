@@ -1,21 +1,30 @@
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import {get} from 'lodash';
 import { useForm } from "react-hook-form";
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 
-import {api, debounce} from '../../utils/index';
+import {debounce} from '../../utils';
 import {Form, Input, Button} from '../../components';
+import {fetchUsernameExists, createAccount} from './accountSlice';
 
 
-function CreateAccountForm() {
+function CreateAccountForm(props) {
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [checkingUsername, setCheckingUsername] = useState(false);
-    const { register, formState, handleSubmit } = useForm({
+    const { register, formState, handleSubmit, watch} = useForm({
         mode: 'all'
     }); 
-    const {errors} = formState;
-    const onSubmit = data => {
-        
+    const {errors, isValid, isSubmitting} = formState;
+    const onSubmit = async data => {
+        const res = await dispatch(createAccount(data));
+        history.push('/login');
+        return res;
     };
+
+    const password = useRef({});
+    password.current = watch("password", "");
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -29,11 +38,11 @@ function CreateAccountForm() {
                         minLength: {value: 3, message: "Value too short"},
                         pattern:  {value: /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/, message: 'Invalid username'},
                         validate: {
-                            usernameTaken: debounce(async function (v) {
+                            usernameTaken: debounce(async (v) => {
                                 setCheckingUsername(true);
-                                const res = await api.get(`/users/username-exists/${v}`);
+                                const res = await dispatch(fetchUsernameExists(v));
                                 setCheckingUsername(false);
-                                return res.exists ? "Username already taken" : undefined;
+                                return get(res, 'payload.exists') ? "Username already taken" : undefined;
                             }, 1500)
                         }
                     }
@@ -63,7 +72,14 @@ function CreateAccountForm() {
             <Input 
                 autoComplete='new-password'
                 label='Confirm Password' 
-                {...register('password_confirmation')} 
+                {...register(
+                    'password_confirmation',
+                    {
+                        validate: (v) => {
+                            return v === password.current ? undefined : "Passwords do not match";
+                        }
+                    }
+                )} 
                 error={get(errors, 'password_confirmation.message')} 
                 required={true} 
                 placeholder='Confirm Password...'
@@ -87,7 +103,7 @@ function CreateAccountForm() {
 
             <div>Already have an account? <Link to="/login">Login here</Link></div>
 
-            <Button primary type='submit'>Create Account</Button>
+            <Button primary disabled={!isValid || isSubmitting} loading={isSubmitting} type='submit'>Create Account</Button>
         </Form>
     );
 }
