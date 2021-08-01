@@ -4,7 +4,7 @@ import { Header } from "../../components";
 function CreateAccountPage() {
   return (
     <>
-      <Header center={true}>Create Account</Header>
+      <Header>Create Account</Header>
       <CreateAccountForm />
     </>
   );
