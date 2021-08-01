@@ -4,11 +4,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { Provider } from 'react-redux'
 import { store } from './store'
+import { loadSession } from './features/account/accountSlice';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 library.add(faSpinner);
+
+store.dispatch(loadSession());
 
 ReactDOM.render(
   <React.StrictMode>
