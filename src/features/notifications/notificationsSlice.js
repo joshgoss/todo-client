@@ -14,14 +14,12 @@ const notificationsSlice = createSlice({
   reducers: {
     addNotification: {
       reducer: (state, action) => {
-        console.log('inside reducer');
         state.data.push(action.payload)
       },
       prepare: ({
         message,
         type = notificationType.SUCCESS
       }={}) => {
-        console.log('inside prepare');
         return {
           payload: {
             id: Date.now(),
@@ -40,7 +38,7 @@ const notificationsSlice = createSlice({
         state.data = [];
     }
   },
-})
+});
 
 export const {addNotification, dismissNotification, clearNotifications} = notificationsSlice.actions;
 export default notificationsSlice.reducer;

@@ -21,3 +21,13 @@ export const getAuth = () => {
     const json = localStorage.getItem(AUTH_KEY);
     return json ? JSON.parse(json) : undefined;
 };
+
+export const isAuthenticated = () => {
+    const auth = getAuth();
+    return auth && auth.access_token;
+}
+
+export const clearSession = () => {
+    localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(ACCOUNT_KEY);
+};

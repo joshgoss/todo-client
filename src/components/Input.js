@@ -1,100 +1,87 @@
-import './Input.scss';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import "./Input.scss";
+import React from "react";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class Input extends React.Component {
-    render() {
-        const {
-            autoComplete,
-            disabled,
-            error,
-            label,
-            loading,
-            name,
-            type,
-            onChange,
-            placeholder,
-            required,
-            value,
-            width
-        } = this.props; 
+import Label from "./Label";
+import Field from "./Field";
 
-        const fieldClasses = classNames('field', {
-            required,
-            error,
-            'col-1': width === 1,
-            'col-2': width === 2, 
-            'col-3': width === 3
-        });
-    
-        const inputClasses = classNames('input', {
-            required,
-            error
-        });
-    
-        const labelClasses = classNames('label', {required});
-    
-        return (
-            <div className={fieldClasses}>
-                {!!label && (
-                    <label className={labelClasses} htmlFor={name} >{label}</label>
-                )}
-                
-                <span className='input-container'>
-                    <input
-                        autoComplete={autoComplete}
-                        className={inputClasses}
-                        disabled={disabled}
-                        name={name}
-                        onChange={onChange}
-                        placeholder={placeholder}
-                        required={required}
-                        type={type}
-                        value={value}
-                    />
+const Input = React.forwardRef((props, ref) => {
+  const {
+    autoComplete,
+    disabled,
+    error,
+    label,
+    loading,
+    name,
+    onBlur,
+    onChange,
+    placeholder,
+    required,
+    type,
+    width,
+  } = props;
 
-                    {loading && <FontAwesomeIcon icon="spinner" spin />}
-                </span>
-    
-                {!!error && typeof error === 'string' && error.length > 0 && (
-                    <p className='message error'>{error}</p>
-                )}
-            </div>
-            
-        ); 
-    }
-}
+  const inputClasses = classNames("input", {
+    required: !!required,
+    error: !!error,
+  });
 
+  return (
+    <Field className="input" error={error} required={required} width={width}>
+      {!!label && (
+        <Label required={required} htmlFor={name}>
+          {label}
+        </Label>
+      )}
+
+      <span className="input-container">
+        <input
+          autoComplete={autoComplete}
+          className={inputClasses}
+          disabled={disabled}
+          name={name}
+          onBlur={onBlur}
+          onChange={onChange}
+          placeholder={placeholder}
+          ref={ref}
+          required={required}
+          type={type}
+        />
+
+        {loading && <FontAwesomeIcon icon="spinner" spin />}
+      </span>
+
+      {!!error && typeof error === "string" && error.length > 0 && (
+        <p className="message error">{error}</p>
+      )}
+    </Field>
+  );
+});
 
 export default Input;
 
 Input.propTypes = {
-    autoComplete: PropTypes.string,
-    defaultValue: PropTypes.string,
-    disabled: PropTypes.bool,
-    error: PropTypes.string,
-    loading: PropTypes.bool,
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func,
-    placeholder: PropTypes.string,
-    required: PropTypes.bool,
-    type: PropTypes.string,
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.bool
-    ]),
-    width: PropTypes.oneOf([1 ,2, 3])
+  autoComplete: PropTypes.string,
+  defaultValue: PropTypes.string,
+  disabled: PropTypes.bool,
+  error: PropTypes.oneOf([PropTypes.string, PropTypes.bool]),
+  loading: PropTypes.bool,
+  name: PropTypes.string.isRequired,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  type: PropTypes.string,
+  width: PropTypes.oneOf([1, 2, 3]),
+  value: PropTypes.string,
 };
 
 Input.defaultProps = {
-    disabled: false,
-    error: '',
-    loading: false,
-    placeholder: '',
-    required: false,
-    type: 'text',
-    width: 1
+  disabled: false,
+  loading: false,
+  required: false,
+  type: "text",
+  width: 1,
 };

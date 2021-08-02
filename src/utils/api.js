@@ -3,29 +3,29 @@ import {
   notificationType,
 } from "../features/notifications/notificationsSlice";
 import { store } from "../store";
+import { getAuth } from "./session";
 
-export const JSON_CONTENT_TYPE = 'application/json;charset=utf-8';
-export const FORM_CONTENT_TYPE = 'application/x-www-form-urlencoded;charset=utf-8';
+export const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
+export const FORM_CONTENT_TYPE =
+  "application/x-www-form-urlencoded;charset=utf-8";
 
-
-const convertData = (contentType, data) => {
+const convertData = (contentType = JSON_CONTENT_TYPE, data) => {
   if (!data) {
     return data;
   }
 
-  let res;
   if (contentType === JSON_CONTENT_TYPE) {
-    res = JSON.stringify(contentType);
+    return JSON.stringify(data);
   } else if (contentType === FORM_CONTENT_TYPE) {
     return Object.keys(data)
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-    .join("&");
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
+      )
+      .join("&");
   } else {
-    throw new Error(`Unsupported content type: ${contentType}`)
+    throw new Error(`Unsupported content type: ${contentType}`);
   }
-
-  return res;
-}
+};
 
 export const apiFetch = async ({
   endpoint = "",
@@ -34,25 +34,28 @@ export const apiFetch = async ({
   data,
   params = undefined,
   headers = {
-    "Content-Type": JSON_CONTENT_TYPE 
+    "Content-Type": JSON_CONTENT_TYPE,
   },
 }) => {
   const ep = endpoint.startsWith("/") ? endpoint.substring(1) : endpoint;
   const url = `${process.env.REACT_APP_API_URL}${ep}`;
 
-  const body = convertData(headers['Content-Type'], data);
+  let h = { "Content-Type": JSON_CONTENT_TYPE, ...headers };
+  const auth = getAuth();
+
+  if (auth && auth.access_token) {
+    h["Authorization"] = `Bearer ${auth.access_token}`;
+  }
 
   const response = await fetch(url, {
     method,
     cache: "no-cache",
     credentials: "same-origin",
-    headers: {
-      ...headers,
-    },
+    headers: h,
     mode: "cors",
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body,
+    body: convertData(headers["Content-Type"], data),
   })
     .then((r) => {
       if (!r.ok) {
@@ -67,7 +70,7 @@ export const apiFetch = async ({
         .then((json) => {
           store.dispatch(
             addNotification({
-              message: json.detail,
+              message: typeof json.detail === "string" ? json.detail : message,
               type: notificationType.FAILURE,
             })
           );
@@ -86,7 +89,6 @@ export const apiFetch = async ({
         });
     });
 
-
   return response.json();
 };
 
@@ -98,7 +100,7 @@ export const get = (endpoint = "", params = {}) => {
   });
 };
 
-export const post = (endpoint = "", data = {}, headers={}) => {
+export const post = (endpoint = "", data = {}, headers = {}) => {
   return apiFetch({
     endpoint,
     method: "POST",
