@@ -1,0 +1,45 @@
+@import 'styles/_variables.scss';
+
+$layout-width: 1024px;
+
+.app-layout {
+    .top-bar-container {
+        border-bottom: 1px solid #bbb;
+
+        .top-bar {
+            margin: 0 auto;
+            width: $layout-width;
+            height: $top-bar-height;
+            
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+
+            .brand {
+                font-size: 1.375em;
+                margin-left: 15px;
+                display: flex;
+                justify-content: center;
+                align-self: center;
+            }
+
+            .account {
+                display: flex;
+                justify-content: center;
+                align-self: center;
+                align-items: center;
+                margin-left: auto;
+                margin-right: 10px;
+
+                .user {
+                    font-size: 1.125em;
+                }
+            }
+        }
+    }
+
+    .page {
+        margin: 0 auto;
+        width: $layout-width;
+    }
+}

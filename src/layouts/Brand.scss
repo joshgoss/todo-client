@@ -1,0 +1,41 @@
+@import 'styles/_colors.scss';
+@import 'styles/_helpers.scss';
+
+.login-layout .brand {
+    margin: 25px 0 40px 0;
+}
+
+.app-layout .brand {
+    .title {
+        font-size: 1.3725em;
+    }
+}
+
+.brand {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    .title {
+        font-weight: bold;
+        font-size: 3.125em;
+        display: block;
+        margin-bottom: 2px;
+        text-align: center;
+
+        .primary {
+            color: $brand-primary;
+        }
+
+        .alt {
+            color: shade($brand-primary, 30%);
+            text-decoration: underline;
+        }
+    }
+
+    .tagline {
+        font-size: 1em;
+        font-weight: normal;
+        color: #999;
+        display: block;
+        text-align: center;
+    }
+}

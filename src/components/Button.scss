@@ -1,48 +1,56 @@
-@import 'styles/_colors.scss';
-@import 'styles/_helpers.scss';
+@import "styles/_colors.scss";
+@import "styles/_helpers.scss";
 
 form button {
-    margin-top: 20px;
-    margin-left: auto;
+  float: right;
+  margin-top: 20px;
 
-    &:last-of-type {
-        margin-right: 20px;
-    }
+  &:first-of-type {
+    margin-right: 20px;
+  }
+
+  &:first-of-type:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
 
 button {
-    border: 0;
-    border: 1px solid solid $black;
-    color: $black;
-    cursor: pointer;
-    font-size: 0.875em;
-    margin:  0 0 0 10px;
-    min-width: 85px;
-    padding: 12px 15px;
+  border: 0;
+  border: 1px solid solid $black;
+  color: $black;
+  cursor: pointer;
+  font-size: 0.875em;
+  margin: 0 0 0 10px;
+  min-width: 85px;
+  padding: 12px 15px;
 
-    &:hover {
-        background: darken($white, 10%);
-    }
-    
-    &:disabled {
-        color: tint($black, 80%);
-        background: tint($black, 95%);
-        cursor: not-allowed;
-    } 
+  &:active,
+  &.active {
+    background: darken($white, 25%);
+  }
 
-    &.primary {
-        background: $primary;
-        color: $white;
-    }
+  &:hover {
+    background: darken($white, 10%);
+  }
 
-    &.primary:hover {
-        background: shade($primary, 30%);
-    }
+  &:disabled {
+    color: tint($black, 80%);
+    background: tint($black, 95%);
+    cursor: not-allowed;
+  }
 
-    &.primary:disabled {
-        background: tint($primary, 60%)
-    } 
+  &.primary {
+    background: $primary;
+    color: $white;
+  }
+
+  &.primary:hover {
+    background: shade($primary, 30%);
+  }
+
+  &.primary:disabled {
+    background: tint($primary, 60%);
+  }
 }
-
-
-

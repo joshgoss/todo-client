@@ -1,0 +1,15 @@
+.todo-page {
+  .header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header {
+      width: auto;
+    }
+
+    .button {
+      height: 50px;
+    }
+  }
+}
