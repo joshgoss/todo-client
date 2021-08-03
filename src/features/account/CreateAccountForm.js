@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 import { debounce } from "../../utils";
 import { Form } from "../../components";
-import { fetchUsernameExists, createAccount } from "./accountSlice";
+import { fetchUsernameExists, createAccount } from "./accountActions";
 
 function CreateAccountForm(props) {
   const history = useHistory();

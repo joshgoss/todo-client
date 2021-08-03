@@ -2,8 +2,9 @@ import {
   addNotification,
   notificationType,
 } from "../features/notifications/notificationsSlice";
+import { wipeSession } from "../features/account/accountActions";
 import { store } from "../store";
-import { getAuth } from "./session";
+import { getAuth, hasTokenExpired } from "./session";
 
 export const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
 export const FORM_CONTENT_TYPE =
@@ -44,6 +45,12 @@ export const apiFetch = async ({
   const auth = getAuth();
 
   if (auth && auth.access_token) {
+    if (hasTokenExpired(auth.expiration)) {
+      store.dispatch(wipeSession());
+      window.location = "/login";
+      return Promise.reject(null);
+    }
+
     h["Authorization"] = `Bearer ${auth.access_token}`;
   }
 
