@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Form } from "../../components";
 
-import { login } from "./accountSlice";
+import { login } from "./accountActions";
 
 const LoginForm = () => {
   const dispatch = useDispatch();

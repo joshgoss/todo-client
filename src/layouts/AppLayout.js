@@ -5,12 +5,10 @@ import { Route, Redirect, Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Notification from "../features/notifications/Notification";
 import Brand from "./Brand";
-import { isAuthenticated } from "../utils/session";
-import {
-  wipeSession,
-  fetchMe,
-  accountSelector,
-} from "../features/account/accountSlice";
+import { getAuth, hasTokenExpired, isAuthenticated } from "../utils/session";
+import { wipeSession, fetchMe } from "../features/account/accountActions";
+
+import { accountSelector } from "../features/account/accountSelectors";
 
 const TopBar = () => {
   const dispatch = useDispatch();
@@ -43,10 +41,18 @@ const TopBar = () => {
 
 const AppLayout = ({ children }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (isAuthenticated()) {
-      dispatch(fetchMe());
+      const auth = getAuth();
+
+      if (hasTokenExpired(auth.expiration)) {
+        dispatch(wipeSession());
+        history.push("/login");
+      } else {
+        dispatch(fetchMe());
+      }
     }
   });
 

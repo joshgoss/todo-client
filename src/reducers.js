@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import notificationsReducer from "./features/notifications/notificationsSlice";
-import accountReducer from "./features/account/accountSlice";
+import accountReducer from "./features/account/accountReducer";
 import todoReducer from "./features/todo/todoSlice";
 
 export const rootReducer = combineReducers({
