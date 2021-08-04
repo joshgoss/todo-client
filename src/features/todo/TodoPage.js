@@ -76,8 +76,8 @@ const TodoPage = () => {
         <Search onChange={handleSearchChange} />
         <ButtonGroup
           buttons={[
-            { value: false, text: "Uncompleted" },
-            { value: true, text: "Completed" },
+            { value: false, text: "Incomplete" },
+            { value: true, text: "Complete" },
           ]}
           onChange={handleButtonGroupChange}
           selected={completed}

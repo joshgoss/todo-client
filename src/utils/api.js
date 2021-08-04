@@ -99,6 +99,14 @@ export const apiFetch = async ({
   return response.json();
 };
 
+export const destroy = (endpoint = "", params) => {
+  return apiFetch({
+    endpoint,
+    method: "DELETE",
+    params,
+  });
+};
+
 export const get = (endpoint = "", params = {}) => {
   return apiFetch({
     endpoint,
@@ -116,10 +124,21 @@ export const post = (endpoint = "", data = {}, headers = {}) => {
   });
 };
 
+export const put = (endpoint = "", data = {}, headers = {}) => {
+  return apiFetch({
+    endpoint,
+    method: "PUT",
+    data,
+    headers,
+  });
+};
+
 const api = {
   apiFetch,
-  post,
+  destroy,
   get,
+  post,
+  put,
 };
 
 export default api;

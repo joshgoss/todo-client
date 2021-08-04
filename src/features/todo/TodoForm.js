@@ -1,27 +1,43 @@
-import { capitalize } from "lodash";
+import { capitalize, pick } from "lodash";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Form } from "../../components";
-import { createTodo, priority } from "./todoSlice";
+import { createTodo, priority, updateTodo } from "./todoSlice";
 
-const TodoForm = ({ onCancelClick, onSubmitted, style }) => {
+const defaultValues = {
+  description: "",
+  priority: priority.NONE,
+  completed: false,
+  due_date: null,
+};
+
+const TodoForm = (props) => {
+  const { onCancelClick, onSubmitted, style } = props;
   const dispatch = useDispatch();
+  const initialValues = {
+    ...defaultValues,
+    ...pick(props, ["id", "description", "priority", "due_date", "completed"]),
+  };
+
   const { register, formState, handleSubmit } = useForm({
     mode: "all",
-    defaultValues: {
-      description: "",
-      priority: priority.NONE,
-      completed: false,
-      due_date: null,
-    },
+    defaultValues: initialValues,
   });
 
   const { isValid, isSubmitting } = formState;
 
   const onSubmit = async (data) => {
-    await dispatch(createTodo(data));
+    let resp;
+
+    if (props.id) {
+      resp = await dispatch(updateTodo({ id: props.id, data }));
+    } else {
+      resp = await dispatch(createTodo(data));
+    }
+
     onSubmitted();
+    return resp;
   };
   const formStyle = {
     padding: "15px",
@@ -61,7 +77,7 @@ const TodoForm = ({ onCancelClick, onSubmitted, style }) => {
       </Form.Group>
 
       <Form.Button disabled={isSubmitting || !isValid} primary type="submit">
-        Add Todo
+        {!!props.id ? "Save" : "Add Todo"}
       </Form.Button>
       <Form.Button onClick={onCancelClick}>Cancel</Form.Button>
     </Form>
@@ -73,7 +89,7 @@ export default TodoForm;
 TodoForm.propTypes = {
   id: PropTypes.number,
   description: PropTypes.string,
-  priority: PropTypes.number,
+  priority: PropTypes.string,
   completed: PropTypes.bool,
   due_date: PropTypes.string,
   onCancelClick: PropTypes.func,

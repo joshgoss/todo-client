@@ -16,7 +16,6 @@ export const getAccount = () => {
 };
 
 export const setAuth = (data) => {
-  console.log("data is: ", data);
   return localStorage.setItem(AUTH_KEY, JSON.stringify(data));
 };
 

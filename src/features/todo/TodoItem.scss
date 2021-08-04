@@ -1,8 +1,13 @@
 .todo-item {
-  padding: 7px 10px 12px 10px;
+  position: relative;
+  padding: 7px 30px 12px 10px;
   border-top: 1px solid #ccc;
 
   border-right: 1px solid #ccc;
+
+  &.editing {
+    background: #eee;
+  }
 
   &:last-of-type {
     border-bottom: 1px solid #ccc;
@@ -36,5 +41,11 @@
   }
   .field:first-of-type {
     margin-left: 0;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    right: 10px;
+    top: 5px;
   }
 }
