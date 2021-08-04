@@ -1,12 +1,6 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import api, { FORM_CONTENT_TYPE } from "../../utils/api";
-import {
-  getAuth,
-  getAccount,
-  setAccount,
-  setAuth,
-  clearSession,
-} from "../../utils/session";
+import { setAccount, setAuth, clearSession } from "../../utils/session";
 
 export const fetchUsernameExists = createAsyncThunk(
   "account/fetchUsernameExists",

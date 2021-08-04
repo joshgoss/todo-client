@@ -54,7 +54,7 @@ const AppLayout = ({ children }) => {
         dispatch(fetchMe());
       }
     }
-  });
+  }, [dispatch, history]);
 
   if (!isAuthenticated()) {
     return <Redirect to="/login" />;
