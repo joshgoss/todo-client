@@ -10,8 +10,10 @@ import Field from "./Field";
 const Input = React.forwardRef((props, ref) => {
   const {
     autoComplete,
+    className,
     disabled,
     error,
+    icon,
     label,
     loading,
     name,
@@ -28,8 +30,19 @@ const Input = React.forwardRef((props, ref) => {
     error: !!error,
   });
 
+  let inputStyle = {};
+
+  if (icon) {
+    inputStyle.paddingLeft = "30px";
+  }
+
   return (
-    <Field className="input" error={error} required={required} width={width}>
+    <Field
+      className={classNames("input", className)}
+      error={error}
+      required={required}
+      width={width}
+    >
       {!!label && (
         <Label required={required} htmlFor={name}>
           {label}
@@ -37,6 +50,8 @@ const Input = React.forwardRef((props, ref) => {
       )}
 
       <span className="input-container">
+        {!!icon && <FontAwesomeIcon className="icon" icon={icon} />}
+
         <input
           autoComplete={autoComplete}
           className={inputClasses}
@@ -48,9 +63,10 @@ const Input = React.forwardRef((props, ref) => {
           ref={ref}
           required={required}
           type={type}
+          style={inputStyle}
         />
 
-        {loading && <FontAwesomeIcon icon="spinner" spin />}
+        {loading && <FontAwesomeIcon className="spinner" icon="spinner" spin />}
       </span>
 
       {!!error && typeof error === "string" && error.length > 0 && (
@@ -64,9 +80,11 @@ export default Input;
 
 Input.propTypes = {
   autoComplete: PropTypes.string,
+  className: PropTypes.string,
   defaultValue: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.oneOf([PropTypes.string, PropTypes.bool]),
+  icon: PropTypes.string,
   loading: PropTypes.bool,
   name: PropTypes.string.isRequired,
   onBlur: PropTypes.func,
@@ -79,6 +97,7 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  className: "",
   disabled: false,
   loading: false,
   required: false,

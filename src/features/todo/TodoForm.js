@@ -3,23 +3,16 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Form } from "../../components";
-import { createTodo } from "./todoSlice";
+import { createTodo, priority } from "./todoSlice";
 
-const priority = {
-  NONE: "none",
-  LOW: "low",
-  MEDIUM: "medium",
-  HIGH: "high",
-};
-
-const TodoForm = ({ onCancelClick }) => {
+const TodoForm = ({ onCancelClick, onSubmitted, style }) => {
   const dispatch = useDispatch();
   const { register, formState, handleSubmit } = useForm({
     mode: "all",
     defaultValues: {
-      description: "test",
+      description: "",
       priority: priority.NONE,
-      completed: true,
+      completed: false,
       due_date: null,
     },
   });
@@ -27,7 +20,8 @@ const TodoForm = ({ onCancelClick }) => {
   const { isValid, isSubmitting } = formState;
 
   const onSubmit = async (data) => {
-    return await dispatch(createTodo(data));
+    await dispatch(createTodo(data));
+    onSubmitted();
   };
   const formStyle = {
     padding: "15px",
@@ -36,7 +30,7 @@ const TodoForm = ({ onCancelClick }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
+    <Form onSubmit={handleSubmit(onSubmit)} style={{ ...formStyle, ...style }}>
       <Form.Group>
         <Form.Input
           label="Description"
@@ -83,4 +77,6 @@ TodoForm.propTypes = {
   completed: PropTypes.bool,
   due_date: PropTypes.string,
   onCancelClick: PropTypes.func,
+  onSubmitted: PropTypes.func,
+  style: PropTypes.object,
 };

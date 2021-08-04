@@ -6,7 +6,7 @@ import todoReducer from "./features/todo/todoSlice";
 export const rootReducer = combineReducers({
   notifications: notificationsReducer,
   session: accountReducer,
-  todo: todoReducer,
+  todos: todoReducer,
 });
 
 export default rootReducer;
