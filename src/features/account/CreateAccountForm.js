@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useCallback, useState, useRef } from "react";
 import { get } from "lodash";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
@@ -8,11 +8,12 @@ import { debounce } from "../../utils";
 import { Form } from "../../components";
 import { fetchUsernameExists, createAccount } from "./accountActions";
 
-function CreateAccountForm(props) {
+const CreateAccountForm = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const [usernameExists, setUsernameExists] = useState(false);
   const [checkingUsername, setCheckingUsername] = useState(false);
-  const { register, formState, handleSubmit, watch } = useForm({
+  const { register, formState, handleSubmit, trigger, watch } = useForm({
     mode: "all",
   });
   const { errors, isValid, isSubmitting } = formState;
@@ -24,6 +25,18 @@ function CreateAccountForm(props) {
 
   const password = useRef({});
   password.current = watch("password", "");
+
+  const usernameTakenCallback = useCallback(
+    debounce(async (v) => {
+      setCheckingUsername(true);
+      const res = await dispatch(fetchUsernameExists(v));
+      setCheckingUsername(false);
+      const exists = get(res, "payload.exists");
+      setUsernameExists(exists ? "Username already taken" : undefined);
+      trigger("username");
+    }, 1500),
+    []
+  );
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -38,17 +51,14 @@ function CreateAccountForm(props) {
               value: /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/,
               message: "Invalid username",
             },
+
             validate: {
-              usernameTaken: debounce(async (v) => {
-                setCheckingUsername(true);
-                const res = await dispatch(fetchUsernameExists(v));
-                setCheckingUsername(false);
-                return get(res, "payload.exists")
-                  ? "Username already taken"
-                  : undefined;
-              }, 1500),
+              usernameTaken: () => usernameExists,
             },
           })}
+          onChange={(e) => {
+            usernameTakenCallback(e.target.value);
+          }}
           loading={checkingUsername}
           error={get(errors, "username.message")}
           required={true}
@@ -118,6 +128,6 @@ function CreateAccountForm(props) {
       </Form.Button>
     </Form>
   );
-}
+};
 
 export default CreateAccountForm;
