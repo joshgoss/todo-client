@@ -9,6 +9,7 @@ import { getAuth, hasTokenExpired, isAuthenticated } from "../utils/session";
 import { wipeSession, fetchMe } from "../features/account/accountActions";
 
 import { accountSelector } from "../features/account/accountSelectors";
+import { clearNotifications } from "../features/notifications/notificationsSlice";
 
 const TopBar = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,10 @@ const AppLayout = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
+    history.listen((location) => {
+      dispatch(clearNotifications());
+    });
+
     if (isAuthenticated()) {
       const auth = getAuth();
 
