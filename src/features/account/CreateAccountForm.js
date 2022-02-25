@@ -35,7 +35,7 @@ const CreateAccountForm = (props) => {
     trigger("username");
   }, 1500)
 
-  const usernameTakenCallback = useCallback(d, []);
+  const usernameTakenCallback = useCallback(d, [d]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
