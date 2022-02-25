@@ -26,17 +26,16 @@ const CreateAccountForm = (props) => {
   const password = useRef({});
   password.current = watch("password", "");
 
-  const usernameTakenCallback = useCallback(
-    debounce(async (v) => {
-      setCheckingUsername(true);
-      const res = await dispatch(fetchUsernameExists(v));
-      setCheckingUsername(false);
-      const exists = get(res, "payload.exists");
-      setUsernameExists(exists ? "Username already taken" : undefined);
-      trigger("username");
-    }, 1500),
-    []
-  );
+  const d = debounce(async (v) => {
+    setCheckingUsername(true);
+    const res = await dispatch(fetchUsernameExists(v));
+    setCheckingUsername(false);
+    const exists = get(res, "payload.exists");
+    setUsernameExists(exists ? "Username already taken" : undefined);
+    trigger("username");
+  }, 1500)
+
+  const usernameTakenCallback = useCallback(d, [d]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
