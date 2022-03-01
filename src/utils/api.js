@@ -54,6 +54,8 @@ export const apiFetch = async ({
     h["Authorization"] = `Bearer ${auth.access_token}`;
   }
 
+  let message = "Something went wrong while performing a request.";
+
   const response = await fetch(url, {
     method,
     cache: "no-cache",
@@ -66,21 +68,29 @@ export const apiFetch = async ({
   })
     .then((r) => {
       if (!r.ok) {
-        return Promise.reject(r);
+        return r.json().then((json) => {
+          store.dispatch(addNotification({
+            message: typeof json.detail === "string" ? json.detail : message,
+            type: notificationType.FAILURE,
+          }));
+        }).catch((r) => {
+          store.dispatch(addNotification({
+            message: message,
+            type: notificationType.FAILURE,
+          }));
+          return Promise.reject(r);
+        });
       }
 
       return Promise.resolve(r);
     })
     .catch((e) => {
-      let message = "Something went wrong while performing a request.";
       e.json()
         .then((json) => {
-          store.dispatch(
-            addNotification({
-              message: typeof json.detail === "string" ? json.detail : message,
-              type: notificationType.FAILURE,
-            })
-          );
+          store.dispatch(addNotification({
+            message: typeof json.detail === "string" ? json.detail : message,
+            type: notificationType.FAILURE,
+          }));
 
           return Promise.resolve(json);
         })
