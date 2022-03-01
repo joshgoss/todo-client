@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { debounce } from "../../utils";
 import { Form } from "../../components";
 import { fetchUsernameExists, createAccount } from "./accountActions";
+import { addNotification, notificationType } from '../notifications/notificationsSlice';
 
 const CreateAccountForm = (props) => {
   const history = useHistory();
@@ -18,9 +19,21 @@ const CreateAccountForm = (props) => {
   });
   const { errors, isValid, isSubmitting } = formState;
   const onSubmit = async (data) => {
-    const res = await dispatch(createAccount(data));
-    history.push("/login");
-    return res;
+    let res;
+
+    try {
+      res = await dispatch(createAccount(data));
+
+      history.push("/login");
+
+      dispatch(addNotification({
+        message: "Account successfully created. Login to your new account.",
+        type: notificationType.SUCCESS,
+      }))      
+    } catch(e) {
+    } finally {
+      return res;
+    }
   };
 
   const password = useRef({});

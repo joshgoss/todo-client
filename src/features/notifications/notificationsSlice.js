@@ -14,7 +14,7 @@ const notificationsSlice = createSlice({
   reducers: {
     addNotification: {
       reducer: (state, action) => {
-        state.data.push(action.payload)
+        state.data.unshift(action.payload)
       },
       prepare: ({
         message,

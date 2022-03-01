@@ -7,12 +7,12 @@
 
     &.failure {
         background: $red;
-        color: darken($white, 10%);
+        color:  $white;
     }
 
     &.success {
         background: $green;
-        color: darken($white, 10%);
+        color: $white;
     }
 
     .message {
