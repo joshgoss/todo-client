@@ -29,7 +29,7 @@ function Button({
       type={type}
       disabled={loading || disabled}
     >
-      {loading && <FontAwesomeIcon icon="spinner" spin /> }
+      {loading && <FontAwesomeIcon icon="spinner" spin style={{marginRight: '5px'}} /> }
       {icon && !loading && <FontAwesomeIcon icon={icon}  style={{marginRight: '5px'}} />}
       {children}
     </button>
