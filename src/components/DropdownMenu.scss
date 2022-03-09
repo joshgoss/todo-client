@@ -17,6 +17,7 @@
   }
 
   .menu {
+    min-width: 120px;
     background: #fff;
     padding: 0;
     position: absolute;
@@ -26,6 +27,7 @@
     border: 1px solid #555;
 
     .menu-item {
+      font-size: 0.875em;
       padding: 10px 15px;
       list-style: none;
       border-bottom: 1px solid #ddd;
