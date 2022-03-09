@@ -8,6 +8,7 @@ function Button({
   children,
   danger,
   disabled,
+  icon,
   loading,
   primary,
   onClick,
@@ -28,7 +29,9 @@ function Button({
       type={type}
       disabled={loading || disabled}
     >
-      {loading ? <FontAwesomeIcon icon="spinner" spin /> : children}
+      {loading && <FontAwesomeIcon icon="spinner" spin /> }
+      {icon && !loading && <FontAwesomeIcon icon={icon}  style={{marginRight: '5px'}} />}
+      {children}
     </button>
   );
 }
@@ -44,6 +47,7 @@ Button.propTypes = {
   ]),
   danger: PropTypes.bool,
   disabled: PropTypes.bool,
+  icon: PropTypes.string,
   loading: PropTypes.bool,
   onClick: PropTypes.func,
   primary: PropTypes.bool,

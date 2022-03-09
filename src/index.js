@@ -2,10 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faEdit,
   faEllipsisV,
   faPlus,
   faSpinner,
   faSearch,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -14,10 +16,12 @@ import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+library.add(faEdit);
 library.add(faEllipsisV);
 library.add(faPlus);
 library.add(faSearch);
 library.add(faSpinner);
+library.add(faTrash);
 
 store.dispatch(loadSession());
 

@@ -9,7 +9,7 @@ const TodoList = ({ todos }) => {
   return (
     <>
       <section className="todo-list">
-        <div className="todo-list-item">{items.length ? items : (<p className="subtle">&nbsp; No todos added yet.</p>)}</div>
+        <div className="todo-list-item">{items.length ? items : (<p className="subtle">&nbsp; No todos to display.</p>)}</div>
       </section>
     </>
   );

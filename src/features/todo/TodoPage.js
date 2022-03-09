@@ -59,7 +59,7 @@ const TodoPage = () => {
     <div className="todo-page">
       <div className="header-bar">
         <Header>My Todos</Header>
-        <Button active={showAddForm} onClick={handleAddClick}>
+        <Button active={showAddForm} icon="plus" onClick={handleAddClick}>
           Add Todo
         </Button>
       </div>

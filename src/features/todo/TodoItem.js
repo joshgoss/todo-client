@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { DropdownMenu } from "../../components";
+import { prettyISODateTime } from '../../utils';
 import { deleteTodo, priority } from "./todoSlice";
 import TodoForm from "./TodoForm";
 
@@ -43,6 +44,8 @@ const TodoItem = (props) => {
     setEditing(false);
   };
 
+  console.log("inside todo item");
+
   return (
     <div className={classNames("todo-item", { editing })} style={style}>
       {editing ? (
@@ -73,14 +76,14 @@ const TodoItem = (props) => {
               </p>
             )}
 
-            <p className="created-at">{props.created_at}</p>
+            <p className="created-at">{prettyISODateTime(props.created_at)}</p>
           </div>
 
           <DropdownMenu
             onChange={handleActionClick}
             options={[
-              { text: actions.EDIT, value: actions.EDIT },
-              { text: actions.DELETE, value: actions.DELETE },
+              { icon: 'edit', text: actions.EDIT, value: actions.EDIT },
+              { icon: 'trash', text: actions.DELETE, value: actions.DELETE },
             ]}
           >
             <FontAwesomeIcon icon="ellipsis-v" />

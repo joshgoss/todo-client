@@ -5,7 +5,7 @@ const Brand = ({showTagline}) => {
     return (
         <div className='brand'>
           <span className='title'><span className='primary'>To</span><span className='alt'>Do</span></span>
-          {showTagline && (<span className='tagline'>A Simple To-Do Manger</span>)}
+          {showTagline && (<span className='tagline'>A Simple To-Do Manager</span>)}
         </div>
     );
 };

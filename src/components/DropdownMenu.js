@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useEffect, useState, useRef } from "react";
 import "./DropdownMenu.scss";
 
@@ -46,6 +47,7 @@ const DropdownMenu = ({ children, onChange, options }) => {
                   setOpened(false);
                 }}
               >
+                {o.icon && <FontAwesomeIcon icon={o.icon} style={{marginRight: '5px'}}/>} 
                 {o.text}
               </li>
             ))}
@@ -65,6 +67,7 @@ DropdownMenu.propTypes = {
   ]),
   options: PropTypes.arrayOf(
     PropTypes.shape({
+      icon: PropTypes.string,
       text: PropTypes.string,
       value: PropTypes.oneOfType([
         PropTypes.string,
